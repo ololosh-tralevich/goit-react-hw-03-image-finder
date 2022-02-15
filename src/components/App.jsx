@@ -19,7 +19,6 @@ export class App extends Component {
   };
 
   typeSearchWord(ev) {
-    // console.log(ev.target.value);
     this.setState({
       searchWord: ev.target.value,
     });
@@ -27,6 +26,9 @@ export class App extends Component {
 
   async fetchPhotos(ev) {
     ev.preventDefault();
+
+    // this.setState({ searchWord: ev.target[0].value });
+    
     const { searchWord, page } = this.state;
     try {
       const data = await fetchPhotos(searchWord, page);
@@ -48,7 +50,8 @@ export class App extends Component {
           onSearchBtn={this.fetchPhotos.bind(this)}
           typeSearchWord={this.typeSearchWord.bind(this)}
         />
-        {/* <ImageGallery /> */}
+        {/* <ImageGallery/> */}
+        <ImageGalleryItem photoArr={this.state.photos} />
       </>
     );
   }
