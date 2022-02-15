@@ -1,14 +1,17 @@
+import fetchImg from '../fetchPhotos/fetchPhotos'
+
 import styles from './searchbar.module.css';
 
-const Searchbar = ({ searchIcon }) => {
+const Searchbar = ({ searchIcon, typeSearchWord, onSearchBtn }) => {
   return (
     <header>
       <form className={styles.searchForm}>
         <input
           type="text"
-          autocomplete="off"
-          autofocus
+          autoComplete="off"
+          autoFocus
           placeholder="Search images..."
+          onChange={typeSearchWord}
         />
         <button className={styles.submitButton} type="submit">
           <img
@@ -16,6 +19,7 @@ const Searchbar = ({ searchIcon }) => {
             src={searchIcon}
             width="15px"
             alt="Search Icon"
+            onClick={onSearchBtn}
           />
         </button>
       </form>
