@@ -2,10 +2,10 @@ import fetchImg from '../fetchPhotos/fetchPhotos';
 
 import styles from './searchbar.module.css';
 
-const Searchbar = ({ searchIcon, typeSearchWord, onSearchBtn }) => {
+const Searchbar = ({ searchIcon, typeSearchWord, searchPhotos }) => {
   return (
     <header>
-      <form className={styles.searchForm} onSubmit={onSearchBtn}>
+      <form className={styles.searchForm} onSubmit={searchPhotos}>
         <input
           type="text"
           autoComplete="off"
