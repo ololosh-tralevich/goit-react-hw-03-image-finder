@@ -9,6 +9,6 @@ export const fetchPhotos = (searchWord, page) => {
   const data = axios.get(
     `${params.baseURL}?q=${searchWord}&page=${page}&key=${params.apiKey}&image_type=photo&orientation=horizontal&per_page=12`
   );
-  // console.log(data)
+  console.log(data)
   return data;
 };

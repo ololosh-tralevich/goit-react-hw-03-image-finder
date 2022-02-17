@@ -16,39 +16,65 @@ export class App extends Component {
     searchWord: '',
     page: 1,
     photos: [],
+    
   };
 
-  typeSearchWord(ev) {
+  typeSearchWord = (ev) => {
     this.setState({
       searchWord: ev.target.value,
     });
   }
 
-  async fetchPhotos(ev) {
-    ev.preventDefault();
+  // async fetchPhotos(ev) {
+  //   ev.preventDefault();    
+  //   const { searchWord, page } = this.state;
+  //   try {
+  //     const data = await fetchPhotos(searchWord, page);
+  //     console.log(data);
+  //     this.setState(prevState => {
+  //       return { photos: [...prevState.photos, ...data.data.hits] };
+  //     });
+  //     return;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
-    // this.setState({ searchWord: ev.target[0].value });
-    
+   async onSearchBtn(ev) {
+    // ev.preventDefault();    
     const { searchWord, page } = this.state;
     try {
       const data = await fetchPhotos(searchWord, page);
-      console.log(data.data.hits);
-      this.setState(prevState => {
-        return { photos: [...prevState.photos, ...data.data.hits] };
-      });
-      // return;
+      console.log(data);  
+      // return data;
     } catch (err) {
       console.log(err);
     }
+    // return this.data;
   }
+
+    searchPhotos = (ev) => {
+    ev.preventDefault();    
+    // this.onSearchBtn()
+      this.onSearchBtn()
+      console.log(this.data)
+      // console.log(data)
+
+      //   this.setState({
+      //    photos: [data.data.hits] 
+      // });
+    }
+
+
+
 
   render() {
     return (
       <>
         <Searchbar
           searchIcon={this.state.searchIcon}
-          onSearchBtn={this.fetchPhotos.bind(this)}
-          typeSearchWord={this.typeSearchWord.bind(this)}
+          onSearchBtn={this.searchPhotos.bind(this)}
+          typeSearchWord={this.typeSearchWord}
         />
         {/* <ImageGallery/> */}
         <ImageGalleryItem photoArr={this.state.photos} />
