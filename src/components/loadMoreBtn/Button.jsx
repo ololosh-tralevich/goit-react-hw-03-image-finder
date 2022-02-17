@@ -1,11 +1,12 @@
-
 import styles from './button.module.css';
 
-const Button = ({loadMore}) => {
+const Button = ({ loadMore }) => {
   return (
-    <button className={styles.button} onClick={loadMore}>
-      Load More
-    </button>
+    <footer>
+      <button className={styles.button} onClick={loadMore}>
+        Load More
+      </button>
+    </footer>
   );
 };
 

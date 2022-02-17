@@ -1,10 +1,8 @@
 import { Component } from 'react';
-import { TailSpin } from 'react-loader-spinner';
 
 import Searchbar from './searchbar/Searchbar';
 import { fetchPhotos } from './fetchPhotos/fetchPhotos';
 import ImageGallery from './imageGallery/ImageGallery';
-// import ImageGalleryItem from './imageGalleryItem/ImageGalleryItem';
 import Loader from './loader/Loader';
 import Button from './loadMoreBtn/Button';
 
@@ -17,6 +15,9 @@ export class App extends Component {
     page: 1,
     photos: [],
     totalData: 0,
+    loading: false,
+    modalOpen: false,
+    modalContent: '',
   };
 
   typeSearchWord = ev => {
@@ -34,20 +35,22 @@ export class App extends Component {
         this.setState({
           photos: data.data.hits,
           totalData: data.data.totalHits,
+          loading: false,
         });
         return;
       }
       this.setState(prevState => {
-        return { photos: [...prevState.photos, ...data.data.hits] };
+        return { photos: [...prevState.photos, ...data.data.hits], loading: false };
       });
     } catch (err) {
       console.log(err);
+      this.setState({loading: false})
     }
   }
 
   searchPhotos = ev => {
     ev.preventDefault();
-    this.setState({ page: 1 });
+    this.setState({ page: 1, loading: true});
     this.fetchPhotos();
   };
 
@@ -58,16 +61,17 @@ export class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    const { searchWord, page } = this.state;
+    const { page } = this.state;
     if (page !== prevState.page) {
-      // this.setState({
-      //     loading: true
-      // });
+      this.setState({
+          loading: true
+      });
       this.fetchPhotos();
     }
   }
 
   render() {
+    console.log(this.state.loading)
     return (
       <>
         <Searchbar
@@ -76,7 +80,8 @@ export class App extends Component {
           typeSearchWord={this.typeSearchWord}
         />
         <ImageGallery photoArr={this.state.photos} />
-        {/* <ImageGalleryItem photoArr={this.state.photos} /> */}
+        {this.state.loading && <Loader />}
+        {/* <Loader></Loader> */}
 
         {this.state.totalData > 12 ? (
           <Button loadMore={this.loadMore} />
@@ -86,9 +91,4 @@ export class App extends Component {
   }
 }
 
-// <TailSpin
-//     heigth="100"
-//     width="100"
-//     color='grey'
-//     ariaLabel='loading'
-//   />
+
