@@ -1,12 +1,12 @@
 import styles from './imageGalleryItem.module.css';
 
-const ImageGalleryItem = ({ photoArr }) => {
+const ImageGalleryItem = ({ photoArr, openModal }) => {
   if (!photoArr.length) {
     return <></>;
   }
   const partOfCode = photoArr.map(photo => {
     return (
-      <li className={styles.galleryListItem} key={photo.id}>
+      <li className={styles.galleryListItem} key={photo.id} onClick={() => openModal(photo)}>
         <img
           className={styles.galleryListItemImg}
           src={photo.webformatURL}

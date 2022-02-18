@@ -19,3 +19,7 @@ footer {
   justify-content: center;
   padding: 20px;
 }
+
+button {
+  cursor: pointer;
+}

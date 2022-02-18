@@ -5,6 +5,7 @@ import { fetchPhotos } from './fetchPhotos/fetchPhotos';
 import ImageGallery from './imageGallery/ImageGallery';
 import Loader from './loader/Loader';
 import Button from './loadMoreBtn/Button';
+import Modal from './photoModal/Modal'
 
 import searchIcon from './img/searchIcon.svg';
 
@@ -40,17 +41,20 @@ export class App extends Component {
         return;
       }
       this.setState(prevState => {
-        return { photos: [...prevState.photos, ...data.data.hits], loading: false };
+        return {
+          photos: [...prevState.photos, ...data.data.hits],
+          loading: false,
+        };
       });
     } catch (err) {
       console.log(err);
-      this.setState({loading: false})
+      this.setState({ loading: false });
     }
   }
 
   searchPhotos = ev => {
     ev.preventDefault();
-    this.setState({ page: 1, loading: true});
+    this.setState({ page: 1, loading: true });
     this.fetchPhotos();
   };
 
@@ -64,14 +68,23 @@ export class App extends Component {
     const { page } = this.state;
     if (page !== prevState.page) {
       this.setState({
-          loading: true
+        loading: true,
       });
       this.fetchPhotos();
     }
   }
 
+  openModal = photo => {
+    // console.log('photo', photo);.
+    this.setState({modalOpen: true, modalContent: photo.largeImageURL})
+  };
+
+  closeModal = () => {
+    this.setState({modalOpen: false, modalContent: ''})
+  }
+
   render() {
-    console.log(this.state.loading)
+    // console.log(this.state.loading);
     return (
       <>
         <Searchbar
@@ -79,16 +92,17 @@ export class App extends Component {
           searchPhotos={this.searchPhotos}
           typeSearchWord={this.typeSearchWord}
         />
-        <ImageGallery photoArr={this.state.photos} />
+        <ImageGallery photoArr={this.state.photos} openModal={this.openModal} />
         {this.state.loading && <Loader />}
         {/* <Loader></Loader> */}
+        {this.state.modalOpen && <Modal modalContent={this.state.modalContent} closeModal={this.closeModal}></Modal>}
 
         {this.state.totalData > 12 ? (
           <Button loadMore={this.loadMore} />
-        ) : <></>}
+        ) : (
+          <></>
+        )}
       </>
     );
   }
 }
-
-
