@@ -24,7 +24,6 @@ class Modal extends Component {
   };
 
   render() {
-    // console.log(this.props.modalContent);
     return createPortal(
       <div onClick={this.close} className={styles.modalOverlay}>
         <div className={styles.modal}>

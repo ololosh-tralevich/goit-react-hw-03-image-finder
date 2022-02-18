@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import styles from './searchbar.module.css';
 
 const Searchbar = ({ searchIcon, typeSearchWord, searchPhotos }) => {
@@ -25,3 +27,9 @@ const Searchbar = ({ searchIcon, typeSearchWord, searchPhotos }) => {
 };
 
 export default Searchbar;
+
+Searchbar.propTypes = {
+  searchIcon: PropTypes.string,
+  typeSearchWord: PropTypes.func.isRequired,
+  searchPhotos: PropTypes.func.isRequired,
+}
