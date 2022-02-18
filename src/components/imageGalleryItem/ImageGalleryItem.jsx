@@ -1,3 +1,5 @@
+import {nanoid} from 'nanoid'
+
 import styles from './imageGalleryItem.module.css';
 
 const ImageGalleryItem = ({ photoArr, openModal }) => {
@@ -6,7 +8,7 @@ const ImageGalleryItem = ({ photoArr, openModal }) => {
   }
   const partOfCode = photoArr.map(photo => {
     return (
-      <li className={styles.galleryListItem} key={photo.id} onClick={() => openModal(photo)}>
+      <li className={styles.galleryListItem} key={nanoid()} onClick={() => openModal(photo)}>
         <img
           className={styles.galleryListItemImg}
           src={photo.webformatURL}
