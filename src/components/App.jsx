@@ -28,7 +28,6 @@ export class App extends Component {
   };
 
   async fetchPhotos() {
-    // console.log('fetch page', this.state.page);
     const { searchWord, page } = this.state;
     try {
       const data = await fetchPhotos(searchWord, page);
@@ -75,7 +74,6 @@ export class App extends Component {
   }
 
   openModal = photo => {
-    // console.log('photo', photo);.
     this.setState({modalOpen: true, modalContent: photo.largeImageURL})
   };
 
@@ -84,7 +82,6 @@ export class App extends Component {
   }
 
   render() {
-    // console.log(this.state.loading);
     return (
       <>
         <Searchbar

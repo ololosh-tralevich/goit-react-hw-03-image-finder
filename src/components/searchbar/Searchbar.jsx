@@ -1,5 +1,3 @@
-import fetchImg from '../fetchPhotos/fetchPhotos';
-
 import styles from './searchbar.module.css';
 
 const Searchbar = ({ searchIcon, typeSearchWord, searchPhotos }) => {
