@@ -30,7 +30,7 @@ class Modal extends Component {
           <button onClick={this.close} className={styles.closeModalBtn}>
             X
           </button>
-          <img className={styles.modalImg} src={this.props.modalContent} alt={'big'} loading='lazy'></img>
+          {this.props.children}
         </div>
       </div>,
       modalRoot

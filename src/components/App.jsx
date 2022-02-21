@@ -5,9 +5,11 @@ import { fetchPhotos } from './fetchPhotos/fetchPhotos';
 import ImageGallery from './imageGallery/ImageGallery';
 import Loader from './loader/Loader';
 import Button from './loadMoreBtn/Button';
-import Modal from './photoModal/Modal'
+import Modal from './photoModal/Modal';
 
 import searchIcon from './img/searchIcon.svg';
+
+import styles from './photoModal/modal.module.css';
 
 export class App extends Component {
   state = {
@@ -17,6 +19,7 @@ export class App extends Component {
     photos: [],
     totalData: 0,
     loading: false,
+    errMessage: null,
     modalOpen: false,
     modalContent: '',
   };
@@ -31,23 +34,16 @@ export class App extends Component {
     const { searchWord, page } = this.state;
     try {
       const data = await fetchPhotos(searchWord, page);
-      if (page === 1) {
-        this.setState({
-          photos: data.data.hits,
-          totalData: data.data.totalHits,
-          loading: false,
-        });
-        return;
-      }
       this.setState(prevState => {
         return {
-          photos: [...prevState.photos, ...data.data.hits],
+          photos: [...prevState.photos, ...data.hits],
+          totalData: data.totalHits,
           loading: false,
         };
       });
     } catch (err) {
       console.log(err);
-      this.setState({ loading: false });
+      this.setState({ loading: false, errMessage: err });
     }
   }
 
@@ -58,8 +54,8 @@ export class App extends Component {
   };
 
   loadMore = ev => {
-    this.setState({
-      page: this.state.page + 1,
+    this.setState(prevState => {
+      return { page: prevState.page + 1 };
     });
   };
 
@@ -74,12 +70,12 @@ export class App extends Component {
   }
 
   openModal = photo => {
-    this.setState({modalOpen: true, modalContent: photo.largeImageURL})
+    this.setState({ modalOpen: true, modalContent: photo.largeImageURL });
   };
 
   closeModal = () => {
-    this.setState({modalOpen: false, modalContent: ''})
-  }
+    this.setState({ modalOpen: false, modalContent: '' });
+  };
 
   render() {
     return (
@@ -91,8 +87,19 @@ export class App extends Component {
         />
         <ImageGallery photoArr={this.state.photos} openModal={this.openModal} />
         {this.state.loading && <Loader />}
-        {/* <Loader></Loader> */}
-        {this.state.modalOpen && <Modal modalContent={this.state.modalContent} closeModal={this.closeModal}></Modal>}
+        {this.state.modalOpen && (
+          <Modal
+            modalContent={this.state.modalContent}
+            closeModal={this.closeModal}
+          >
+            <img
+              className={styles.modalImg}
+              src={this.state.modalContent}
+              alt="Big"
+              loading="lazy"
+            />
+          </Modal>
+        )}
 
         {this.state.totalData > 12 ? (
           <Button loadMore={this.loadMore} />
