@@ -59,8 +59,8 @@ export class App extends Component {
     });
   };
 
-  openModal = photo => {
-    this.setState({ modalOpen: true, modalContent: photo.largeImageURL });
+  openModal = modalPhoto => {
+    this.setState({ modalOpen: true, modalContent: modalPhoto });
   };
 
   closeModal = () => {

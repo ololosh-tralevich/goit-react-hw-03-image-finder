@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types';
+import { Component } from 'react/cjs/react.development';
 
 import styles from './searchbar.module.css';
 
 import searchIcon from '../img/searchIcon.svg';
-import { Component } from 'react/cjs/react.development';
 
 class Searchbar extends Component {
   state = {
@@ -46,9 +45,3 @@ class Searchbar extends Component {
   }
 }
 export default Searchbar;
-
-// Searchbar.propTypes = {
-//   searchIcon: PropTypes.string,
-//   typeSearchWord: PropTypes.func.isRequired,
-//   searchPhotos: PropTypes.func.isRequired,
-// };
