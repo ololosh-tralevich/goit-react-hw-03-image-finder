@@ -7,14 +7,10 @@ import Loader from './loader/Loader';
 import Button from './loadMoreBtn/Button';
 import Modal from './photoModal/Modal';
 
-import searchIcon from './img/searchIcon.svg';
-
 import styles from './photoModal/modal.module.css';
 
 export class App extends Component {
   state = {
-    searchIcon: searchIcon,
-    searchWord: '',
     page: 1,
     photos: [],
     totalData: 0,
@@ -24,11 +20,15 @@ export class App extends Component {
     modalContent: '',
   };
 
-  typeSearchWord = ev => {
-    this.setState({
-      searchWord: ev.target.value,
-    });
-  };
+  componentDidUpdate(prevProps, prevState) {
+    const { searchWord, page } = this.state;
+    if (searchWord !== prevState.searchWord || page !== prevState.page) {
+      this.setState({
+        loading: true,
+      });
+      this.fetchPhotos();
+    }
+  }
 
   async fetchPhotos() {
     const { searchWord, page } = this.state;
@@ -47,27 +47,17 @@ export class App extends Component {
     }
   }
 
-  searchPhotos = ev => {
-    ev.preventDefault();
-    this.setState({ page: 1, loading: true });
-    this.fetchPhotos();
+  searchPhotos = ({ searchWord }) => {
+    this.setState(prevState => {
+      return searchWord !== prevState.searchWord && { searchWord, photos: [] };
+    });
   };
 
-  loadMore = ev => {
+  loadMore = () => {
     this.setState(prevState => {
       return { page: prevState.page + 1 };
     });
   };
-
-  componentDidUpdate(prevProps, prevState) {
-    const { page } = this.state;
-    if (page !== prevState.page) {
-      this.setState({
-        loading: true,
-      });
-      this.fetchPhotos();
-    }
-  }
 
   openModal = photo => {
     this.setState({ modalOpen: true, modalContent: photo.largeImageURL });
@@ -81,8 +71,7 @@ export class App extends Component {
     return (
       <>
         <Searchbar
-          searchIcon={this.state.searchIcon}
-          searchPhotos={this.searchPhotos}
+          onSubmit={this.searchPhotos}
           typeSearchWord={this.typeSearchWord}
         />
         <ImageGallery photoArr={this.state.photos} openModal={this.openModal} />

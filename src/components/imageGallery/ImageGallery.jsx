@@ -4,6 +4,7 @@ import ImageGalleryItem from '../imageGalleryItem/ImageGalleryItem';
 import styles from './imageGallery.module.css';
 
 const ImageGallery = ({ photoArr, openModal }) => {
+  // const elements = photoArr.map(item => <ImageGalleryItem key={item.id} {...item} />)
   return (
     <ul className={styles.galleryList}>
       <ImageGalleryItem photoArr={photoArr} openModal={openModal} />
